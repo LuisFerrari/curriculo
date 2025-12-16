@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Currículo Digital | Luis Ferrari</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #1f3c88;
+      --secondary: #00b4d8;
+      --accent: #52b788;
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #333;
+    }
+
+    body.dark {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #e5e7eb;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #e0f2fe, var(--bg));
+      color: var(--text);
+      transition: background 0.5s, color 0.5s;
+    }
+
+    /* Scroll progress */
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--secondary));
+      width: 0%;
+      z-index: 9999;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 50px auto;
+      background: var(--card);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      padding: 55px 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    .toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.25);
+      border: none;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    header h1 { margin: 0; font-size: 40px; }
+
+    .counter {
+      margin-top: 12px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    section {
+      padding: 40px 50px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease;
+    }
+
+    section.show { opacity: 1; transform: translateY(0); }
+
+    section h2 {
+      font-size: 26px;
+      color: var(--primary);
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    section h2::after {
+      content: '';
+      width: 80px;
+      height: 5px;
+      background: linear-gradient(90deg, var(--accent), var(--secondary));
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      border-radius: 6px;
+    }
+
+    .icon {
+      display: inline-block;
+      margin-right: 8px;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+    }
+
+    .skill {
+      background: linear-gradient(135deg, #f1f5ff, #e9faff);
+      padding: 16px 18px;
+      border-radius: 18px;
+      font-weight: 600;
+      transition: transform 0.4s, box-shadow 0.4s;
+    }
+
+    .skill:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 35px rgba(0,0,0,0.25);
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      padding: 35px;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+      color: #fff;
+      padding: 16px 30px;
+      border-radius: 40px;
+      border: none;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 22px;
+      font-size: 13px;
+      background: #fafafa;
+      color: #777;
+    }
+
+    /* ATS clean version */
+    #ats {
+      display: none;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      color: #000;
+    }
+
+    #ats h1, #ats h2 { color: #000; }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <div class="container" id="cv">
+    <header>
+      <button class="toggle" onclick="toggleTheme()">🌙 / ☀️</button>
+      <h1>Luis Fernando Ferrari</h1>
+      <p>Analista de TI</p>
+      <p>📍 Atibaia - SP | 📞 (11) 97067-8398 | ✉️ luisferrari1990@gmail.com</p>
+      <div class="counter">🚀 <span id="years"></span> anos de experiência em TI</div>
+    </header>
+
+    <section class="reveal">
+      <h2><span class="icon">🎯</span>Objetivo Profissional</h2>
+      <p>Atuar como Analista de TI, contribuindo com minha experiência em suporte técnico, infraestrutura de redes, servidores Windows e automações, com foco em estabilidade, segurança e melhoria contínua dos ambientes de tecnologia.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="icon">💼</span>Resumo Profissional</h2>
+      <p>Analista de TI com sólida experiência em suporte técnico, infraestrutura de redes e administração de ambientes Windows. Atuação prática em manutenção de hardware, atendimento a usuários locais e remotos, monitoramento de redes, firewalls e automações em PowerShell.</p>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="icon">🛠️</span>Competências Técnicas</h2>
+      <div class="skills">
+        <div class="skill">Suporte técnico local e remoto</div>
+        <div class="skill">Windows Server, Active Directory e GPO</div>
+        <div class="skill">Redes TCP/IP e cabeamento estruturado</div>
+        <div class="skill">Firewalls Ubiquiti USG e SonicWall</div>
+        <div class="skill">Windows e Linux (fundamentos)</div>
+        <div class="skill">Manutenção de hardware e impressoras</div>
+        <div class="skill">PowerShell – automações administrativas</div>
+        <div class="skill">SQL, PHP, Java, JavaScript</div>
+        <div class="skill">HTML e CSS</div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="icon">🏢</span>Experiência Profissional</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <strong>GVS Sport Indústria e Comércio de Peças Ltda</strong><br/>
+          <span>Analista de TI | 2017 – Atual</span>
+          <p>Suporte técnico aos usuários em ambiente Windows, manutenção preventiva e corretiva de estações de trabalho e impressoras, monitoramento de rede, administração de sistemas e apoio à infraestrutura de TI.</p>
+        </div>
+        <div class="timeline-item">
+          <strong>Redzone Net Prestadora de Serviços e Turismo</strong><br/>
+          <span>Auxiliar de Informática | 2008 – 2015</span>
+          <p>Desenvolvimento e manutenção de sites corporativos para hotéis (CVC Turismo) e suporte técnico aos usuários.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="icon">🎓</span>Formação Acadêmica</h2>
+      <p><strong>Engenharia da Computação</strong><br/>Universidade São Francisco – Campus Itatiba<br/>2013 – 2021</p>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="icon">📚</span>Cursos e Certificações</h2>
+      <ul>
+        <li>Windows Server 2012 – Udemy (360h)</li>
+        <li>Java – Udemy (360h)</li>
+        <li>Redes TCP/IP – Udemy (40h)</li>
+        <li>Linux – Udemy (40h)</li>
+        <li>SQL Server Módulo I – Impacta (40h)</li>
+        <li>Web Design – Microcamp (264h)</li>
+      </ul>
+    </section>
+
+    <section class="reveal">
+      <h2><span class="icon">⚙️</span>Portfólio – Automações PowerShell</h2>
+      <div class="portfolio">
+        <div class="project">
+          <p><strong>Gerenciamento de Usuários no Active Directory</strong></p>
+          <p>Criação, desativação e reset de senha de usuários com logs automáticos.</p>
+        </div>
+        <div class="project">
+          <p><strong>Inventário Automatizado de Computadores</strong></p>
+          <p>Coleta de informações de máquinas e exportação para CSV.</p>
+        </div>
+        <div class="project">
+          <p><strong>Monitoramento de Serviços Críticos</strong></p>
+          <p>Verificação de serviços e alerta por e-mail em caso de falha.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button class="btn" onclick="downloadPDF(false)">⬇ PDF Visual</button>
+      <button class="btn" onclick="downloadPDF(true)">📄 PDF ATS</button>
+    </div>
+
+    <footer>Currículo Digital © 2025</footer>
+  </div>
+
+  <!-- ATS version -->
+  <div id="ats">
+    <h1>Luis Fernando Ferrari</h1>
+    <p>Analista de TI</p>
+    <h2>Resumo</h2>
+    <p>Analista de TI com experiência em suporte técnico, infraestrutura, Windows Server e PowerShell.</p>
+  </div>
+
+  <script>
+    /* Dark mode */
+    function toggleTheme() { document.body.classList.toggle('dark'); }
+
+    /* Scroll reveal */
+    const reveals = document.querySelectorAll('.reveal');
+    window.addEventListener('scroll', () => {
+      reveals.forEach(sec => {
+        if (sec.getBoundingClientRect().top < window.innerHeight - 100)
+          sec.classList.add('show');
+      });
+
+      const scrollTop = document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      document.getElementById('progress').style.width = (scrollTop / height) * 100 + '%';
+    });
+
+    /* Experience counter */
+    const startYear = 2008;
+    const currentYear = new Date().getFullYear();
+    document.getElementById('years').innerText = currentYear - startYear;
+
+    /* PDF */
+    function downloadPDF(ats) {
+      const element = ats ? document.getElementById('ats') : document.getElementById('cv');
+      html2pdf().from(element).save(ats ? 'Luis_Ferrari_CV_ATS.pdf' : 'Luis_Ferrari_CV.pdf');
+    }
+  </script>
+</body>
+</html>
